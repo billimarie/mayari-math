@@ -12,6 +12,83 @@
         --background: #f7f9fc;
         --text: #2c3e50;
       }
+      body {
+        font-family 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--background);
+        color: var(--text);
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .container {
+        
+      }
     </style>
   </head>
+  <body>
+    <div class="container">
+      <div class="cat-container">
+        <div class="rainbow-cat" id="cat-mascot" title="Meow! Solve the problems!">🐱</div>
+      </div>
+
+      <h1>Mayari's Math Adventure!</h1>
+      <div class="subtitle">California Common Core Standards: Grade 1</div>
+
+      <form id="quiz-form">
+
+      </form>
+      
+    </div>
+
+    <script>
+      const form          = document.getElementById('quiz-form'),
+            questions     = document.querySelectorAll('.question'),
+            scoreDisplay  = document.getElementById('score-display'),
+            catMascot     = document.getElementById('cat-mascot');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        let correctCount = 0;
+        const totalQuestions= questions.length;
+
+        questions.forEach(question => {
+          const correctAnswer = parseInt(question.getAttribute('data-answer')),
+                input         = question.querySelector('input'),
+                userAnswer    = parseInt(input.value),
+                icon          = question.querySelector('.feedback-icon');
+
+          if (userAnswer === correctAnswer) {
+            correctCount++;
+            question.classList.remove('incorrect');
+            question.classList.add('correct');
+            icon.textContent = '✅';
+          } else {
+            question.classList.remove('correct');
+            question.classList.add('incorrect');
+            icon.textContent = '🤔';
+          }
+        });
+
+        if (correctCount === totalQuestions) {
+          scoreDisplay.textContent = `🌟 Perfect Score! ${correctCount}/${totalQuestions} 🌟`;
+          scoreDisplay.style.color = '#2ecc71';
+          catMascot.textContent = '🦁';
+          alert("🎉 Super job! Rainbow Cat is so proud of you!");
+        } else {
+          scoreDisplay.textContent = `Keep trying! You got ${correctCount}/${totalQuestions} right`;
+          scoreDisplay.style.color = '#e67e22';
+          catMascot.textContent = '😼';
+          alert("✨ Let's do it again and get it ALL right!");
+        }
+      });
+
+      questions.forEach(q => {
+        q.querySelector('input').addEventListener('input', () => {
+          catMascot.textContent = '🐱';
+        });
+      });
+    </script>
+  </body>
 </html>
